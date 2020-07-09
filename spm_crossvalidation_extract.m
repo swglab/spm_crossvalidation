@@ -7,7 +7,7 @@ function [data,voxels,contrasts,labels]=spm_crossvalidation_extract(maskname,roi
 % to extract cross-validated data using the resulting subject-specific masks.
 %
 % Steps:
-%    1) select a cross-validation mask file (*.img file created using SPM_CROSSVALIDATION)
+%    1) select a cross-validation mask file (*.nii file created using SPM_CROSSVALIDATION)
 %    2) select ROI file(s) (this file(s) should contain a priori ROI definitions,
 %    the data from each subject-specific mask will be aggregated across
 %    each ROI; you can leave this empty if you prefer to aggregated across
@@ -25,7 +25,7 @@ function [data,voxels,contrasts,labels]=spm_crossvalidation_extract(maskname,roi
 % alfnie@gmail.com 06/10
 
 if nargin<1
-    maskname=spm_select(1,'.*\.img','Select cross-validation mask file');
+    maskname=spm_select(1,'\.nii$|\.img$','Select cross-validation mask file');
 end
 [maskpath,maskname,maskext]=fileparts(maskname);
 if nargin<2||(ischar(roiname)&&strcmp(roiname,'?')),

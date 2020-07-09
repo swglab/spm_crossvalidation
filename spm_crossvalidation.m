@@ -2,7 +2,7 @@ function spm_crossvalidation(SPM,xSPM,filename)
 % SPM_CROSSVALIDATION performs leave-one-out cross-validation of SPM second-level results
 %
 % When viewing second-level results in the standard spm_results window,
-% type spm_crossvalidation; in the command line. Then select a .img file
+% type spm_crossvalidation; in the command line. Then select a .nii file
 % where the cross-validation masks will be saved. The current second-level
 % analyses and contrast will be re-evaluated leaving one subject out at a
 % time. For each of these cases supra-threshold voxels will be saved in a
@@ -23,7 +23,7 @@ catch
 end
 if ~ok||isempty(SPM)||isempty(xSPM), [SPM,xSPM]=spm_getSPM; end
 if nargin<3||isempty(filename), 
-    [filename,filepath]=uiputfile('*.img','Save cross-validation mask file as'); 
+    [filename,filepath]=uiputfile('*.nii','Save cross-validation mask file as'); 
     filename=fullfile(filepath,filename);
 end
 
@@ -67,7 +67,7 @@ if DOMULTIVARIATE, N=size(SPM.xX_multivariate.X,1);
 else N=size(SPM.xX.X,1);
 end
 cd(filepath);
-V=struct('fname',[filename,'.img'],...
+V=struct('fname',[filename,'.nii'],...
     'mat',SPM.xCon(1).Vcon.mat,...
     'dim',SPM.xCon(1).Vcon.dim,...
     'n',[1,1],...
@@ -166,7 +166,7 @@ end
 cd(cwd);
 save(fullfile(filepath,[filename,'.cv']),'XYZmm','SPM','xSPM');
 [nill,ok]=system(['rmdir ',tempdir]);
-fprintf('Subject-specific cross-validation mask file saved as %s\n',fullfile(filepath,[filename,'.img']));
+fprintf('Subject-specific cross-validation mask file saved as %s\n',fullfile(filepath,[filename,'.nii']));
 
 % extract cross-validated data
-spm_crossvalidation_extract(fullfile(filepath,[filename,'.img']),'?',fullfile(SPM.swd,'SPM.mat'));
+spm_crossvalidation_extract(fullfile(filepath,[filename,'.nii']),'?',fullfile(SPM.swd,'SPM.mat'));
